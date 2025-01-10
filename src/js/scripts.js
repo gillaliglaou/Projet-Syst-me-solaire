@@ -25,7 +25,7 @@ const orbit = new OrbitControls(camera, renderer.domElement);
 
 camera.position.set(-90, 140, 140);
 orbit.update();
-
+//Initiation of ambient light
 const ambientLight = new THREE.AmbientLight(0x333333);
 scene.add(ambientLight);
 
@@ -48,6 +48,7 @@ const refMat = new THREE.MeshBasicMaterial({
 const ref = new THREE.Mesh(refGeo, refMat);
 scene.add(ref);
 
+//function that creates a planet given it's size, position and texture
 function createPlanete(size, texture, position, r = 0, g = 0, b = 0) {
     const geo = new THREE.SphereGeometry(size, 30, 30);
     const mat = new THREE.MeshStandardMaterial({
@@ -64,6 +65,8 @@ function createPlanete(size, texture, position, r = 0, g = 0, b = 0) {
     mesh.position.x = position;
     return { mesh, obj }
 }
+
+//creation of planets
 //const sun = createPlanete(16, sunTexture, 3, 255 / 255, 165 / 255, 0);
 const earth = createPlanete(6, earthTexture, 200);
 const moon = createPlanete(2, moonTexture, 20); // Position moon closer to Earth
@@ -72,6 +75,7 @@ earth.mesh.add(moon.obj);
 const pointLight = new THREE.PointLight(0xFFFFFF, 2, 1000);
 scene.add(pointLight);
 
+//animation of said planets
 function animate() {
     //Self-rotation
     //1.997 km/s
