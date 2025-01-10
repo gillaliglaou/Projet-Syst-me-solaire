@@ -3,11 +3,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main 
+      - main  # Or your default branch
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -17,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' 
+          node-version: '16'
 
       - name: Install dependencies
         run: |
@@ -27,13 +30,8 @@ jobs:
         run: |
           npm run build
 
-      - name: List build output
-        run: |
-          ls -la ./dist
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true
+          publish_dir: ./dist  # Ensure the dist folder is the source for deployment
