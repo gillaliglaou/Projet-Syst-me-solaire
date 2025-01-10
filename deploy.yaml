@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment when pushing to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (if you're using Node.js)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Adjust the version if necessary
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install  # Install project dependencies
+
+      # Step 4: Build the project with Parcel
+      - name: Build the project using Parcel
+        run: |
+          npx parcel build ./src/index.html  # This runs Parcel and builds the project
+
+      # Step 5: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # Deploy to the gh-pages branch
+          folder: dist      # Parcel outputs the build files in the 'dist' folder by default
+
+      # Optional: Set up a custom domain if you use one
+      - name: Set up custom domain (optional)
+        run: echo 'yourcustomdomain.com' > ./dist/CNAME
