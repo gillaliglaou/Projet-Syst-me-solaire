@@ -31,7 +31,7 @@ jobs:
       # Step 4: Build the project using Parcel
       - name: Build with Parcel
         run: |
-          npm run build  # Make sure this command runs Parcel and outputs to the `dist` folder
+          npx parcel ./src/index.html
 
       # Step 5: Deploy to GitHub Pages (using GitHub Pages Action)
       - name: Deploy to GitHub Pages
