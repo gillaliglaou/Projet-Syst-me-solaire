@@ -28,10 +28,10 @@ jobs:
         run: |
           npm install
 
-      # Step 4: Build the project using Parcel
+      # Step 4: Build the project using Parcel (build command to output to dist)
       - name: Build with Parcel
         run: |
-          npx parcel ./src/index.html
+          npm run build  # This assumes your package.json has the build script
 
       # Step 5: Deploy to GitHub Pages (using GitHub Pages Action)
       - name: Deploy to GitHub Pages
