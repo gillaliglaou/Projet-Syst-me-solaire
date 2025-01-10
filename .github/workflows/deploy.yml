@@ -10,32 +10,35 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest  # Run on the latest Ubuntu environment
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js (since you are using Parcel)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Adjust the Node.js version as needed
+          node-version: '16'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
 
-      # Step 4: Build the project using Parcel
       - name: Build with Parcel
-        run: |
-          npm run build
+        run: npm run build
 
-      # Step 5: Deploy to GitHub Pages (using GitHub Pages Action)
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication
-          publish_dir: ./dist  # Directory to be deployed (ensure your build outputs to `dist`)
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout --orphan gh-pages
+          git add -A
+          git commit -m "Deploy to GitHub Pages"
+          git push --force --set-upstream git@github.com:your-username/your-repo.git gh-pages
