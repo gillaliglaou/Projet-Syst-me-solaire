@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import starsTexture from '../img/stars.jpg';
 import sunTexture from '../img/sun.jpg';
 import earthTexture from '../img/earth.jpg';
-import moonTexture from '../img/moon.png';
+import moonTexture from '../img/Moon.png';
 
 const renderer = new THREE.WebGLRenderer();
 
